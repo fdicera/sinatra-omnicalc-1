@@ -37,14 +37,15 @@ get("/payment/new") do
   get("/payment/results") do
     @APR_new = params.fetch("user_apr").to_f
     @years = params.fetch("user_years").to_f
-    @principal = params.fetch("user_pv").to_f
+    @principal = params.fetch("user_principal").to_f
     @APR_pct = @APR_new/(100*12)
     @months = @years*12
-    #@numerator = @APR_pct*@principal
-    #@denomintor = 1-(1+@APR_pct)**(@years*-1)
     @payment_raw = @APR_pct*@principal/(1-(1+@APR_pct)**(@months*-1))
     @payment = @payment_raw.round(2)
-    #@APR = @APR_new.round(5)
+    @APR = @APR_new.to_s_percentage
+    #format("%.4f", @APR_new.round(4))
+    @years_vis = @years.round(0)
+    @principal_vis = format("%.2f", @principal.round(2))
     erb(:payment_results)
   end
 
