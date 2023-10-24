@@ -41,9 +41,8 @@ get("/payment/new") do
     @APR_pct = @APR_new/(100*12)
     @months = @years*12
     @payment_raw = @APR_pct*@principal/(1-(1+@APR_pct)**(@months*-1))
-    @payment = @payment_raw.round(2)
-    @APR = @APR_new.to_s_percentage
-    #format("%.4f", @APR_new.round(4))
+    @payment = format("%.2f",  @payment_raw.round(2)) #@payment_raw.round(2)
+    @APR = format("%.4f", @APR_new.round(4))
     @years_vis = @years.round(0)
     @principal_vis = format("%.2f", @principal.round(2))
     erb(:payment_results)
